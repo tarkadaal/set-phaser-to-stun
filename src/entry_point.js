@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import 'phaser/dist/phaser-arcade-physics.min.js';
+import Phaser from 'phaser/dist/phaser-arcade-physics.min.js';
 
 function component() {
   const element = document.createElement('div');
