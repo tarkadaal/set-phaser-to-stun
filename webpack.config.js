@@ -16,6 +16,14 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     clean: true,
   },
+  module: {
+    rules: [
+      {
+        test: /\.(png|svg|jpg|jpeg|gif|wav|mp3|ogg)$/i,
+        type: 'asset/resource'
+      },
+    ],
+  },
   ignoreWarnings: [
     {
       message: /size limit/
