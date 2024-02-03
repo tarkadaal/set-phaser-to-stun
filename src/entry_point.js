@@ -1,4 +1,5 @@
 import Phaser from 'phaser/dist/phaser.min.js';
+import sum from './sum.js';
 
 class Example extends Phaser.Scene
 {
@@ -7,7 +8,8 @@ class Example extends Phaser.Scene
 
     create ()
     {
-        this.add.text(100, 100, 'Set Phaser to stun; you\'re good to go!', {fontFamily: 'sans'});
+        const x = sum(125, 100);
+        this.add.text(x, 100, 'Set Phaser to stun; you\'re good to go!', {fontFamily: 'sans'});
     }
 }
 
