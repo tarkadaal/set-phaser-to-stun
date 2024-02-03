@@ -1,44 +1,13 @@
-import _ from 'lodash';
-import Phaser from 'phaser/dist/phaser-arcade-physics.min.js';
-
-function component() {
-  const element = document.createElement('div');
-
-  element.innerHTML = _.join(['Hello', 'webpack'], ' ');
-
-  return element;
-}
-
-document.body.appendChild(component());
+import Phaser from 'phaser/dist/phaser.min.js';
 
 class Example extends Phaser.Scene
 {
     preload ()
-    {
-        this.load.setBaseURL('https://labs.phaser.io');
-
-        this.load.image('sky', 'assets/skies/space3.png');
-        this.load.image('logo', 'assets/sprites/phaser3-logo.png');
-        this.load.image('red', 'assets/particles/red.png');
-    }
+    { }
 
     create ()
     {
-        this.add.image(400, 300, 'sky');
-
-        const particles = this.add.particles(0, 0, 'red', {
-            speed: 100,
-            scale: { start: 1, end: 0 },
-            blendMode: 'ADD'
-        });
-
-        const logo = this.physics.add.image(400, 100, 'logo');
-
-        logo.setVelocity(100, 200);
-        logo.setBounce(1, 1);
-        logo.setCollideWorldBounds(true);
-
-        particles.startFollow(logo);
+        this.add.text(100, 100, 'Set Phaser to stun; you\'re good to go!', {fontFamily: 'sans'});
     }
 }
 
@@ -47,12 +16,6 @@ const config = {
     width: 800,
     height: 600,
     scene: Example,
-    physics: {
-        default: 'arcade',
-        arcade: {
-            gravity: { y: 200 }
-        }
-    }
 };
 
 const game = new Phaser.Game(config);
