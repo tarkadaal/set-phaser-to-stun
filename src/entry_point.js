@@ -16,7 +16,7 @@ class Example extends Phaser.Scene
         const x = sum(125, 100);
         this.add.text(x, 100, 'Set Phaser to stun; you\'re good to go!', {fontFamily: 'sans'});
         this.add.image(385, 290, 'phaser');
-        this.add.text(250, 500, 'Click panel to hear sample audio.', {fontFamily: 'sans'});
+        this.add.text(250, 500, 'No sound? Try clicking the panel.', {fontFamily: 'sans'});
         const music = this.sound.add('jingle');
         music.play();
     }

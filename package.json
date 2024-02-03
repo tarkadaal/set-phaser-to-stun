@@ -1,11 +1,15 @@
 {
-  "name": "SPTS Template",
+  "name": "SPTSTemplate",
   "version": "1.0.0",
   "description": "",
+  "config": {
+    "itchiotarget": "tarkadaal/set-phaser-to-stun"
+  },
   "scripts": {
     "test": "jest",
     "build": "npm test && webpack",
-    "serve": "http-server ./dist"
+    "serve": "http-server ./dist",
+    "itchio-push": "npm run build && zip bundle dist/* && butler push bundle.zip $npm_package_config_itchiotarget:html"
   },
   "author": "",
   "license": "MIT",
