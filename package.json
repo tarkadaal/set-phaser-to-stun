@@ -1,0 +1,26 @@
+{
+  "name": "SPTSTemplate",
+  "version": "1.0.0",
+  "description": "",
+  "config": {
+    "itchiotarget": "tarkadaal/set-phaser-to-stun"
+  },
+  "scripts": {
+    "test": "jest",
+    "build": "npm test && webpack",
+    "serve": "http-server ./dist",
+    "itchio-push": "npm run build && zip bundle dist/* && butler push bundle.zip $npm_package_config_itchiotarget:html"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "phaser": "3.70.0"
+  },
+  "devDependencies": {
+    "html-webpack-plugin": "5.6.0",
+    "http-server": "14.1.1",
+    "jest": "29.7.0",
+    "webpack": "5.90.1",
+    "webpack-cli": "5.1.4"
+  }
+}
