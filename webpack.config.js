@@ -37,4 +37,5 @@ module.exports = {
       Assets: path.resolve(__dirname, './assets/'),
     }
   }
+
 };
