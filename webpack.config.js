@@ -31,5 +31,11 @@ module.exports = {
     {
       message: /limit the size of your bundles/
     }
-  ]
+  ],
+  resolve: {
+    alias: {
+      Assets: path.resolve(__dirname, './assets/'),
+    }
+  }
+
 };
