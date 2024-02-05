@@ -1,5 +1,5 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   entry: './src/entry_point.js',
@@ -7,22 +7,22 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin(
       {
-        title: 'Caching',
+        title: 'Caching'
       }
     )
   ],
   output: {
     filename: '[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
-    clean: true,
+    clean: true
   },
   module: {
     rules: [
       {
         test: /\.(png|svg|jpg|jpeg|gif|wav|mp3|ogg)$/i,
         type: 'asset/resource'
-      },
-    ],
+      }
+    ]
   },
   ignoreWarnings: [
     {
@@ -34,8 +34,8 @@ module.exports = {
   ],
   resolve: {
     alias: {
-      Assets: path.resolve(__dirname, './assets/'),
+      Assets: path.resolve(__dirname, './assets/')
     }
   }
 
-};
+}
