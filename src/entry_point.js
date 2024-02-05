@@ -1,7 +1,9 @@
 import Phaser from 'phaser/dist/phaser.min.js';
 import sum from './sum.js';
-import PixelPhaser from '../assets/textures/phaser.png';
-import Jingle from '../assets/sounds//music//phaser-jingle.wav';
+
+// Assets alias is defined in webpack.config.js
+import PixelPhaser from 'Assets/textures/phaser.png';
+import Jingle from 'Assets/sounds//music//phaser-jingle.wav';
 
 class Example extends Phaser.Scene
 {
