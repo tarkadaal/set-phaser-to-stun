@@ -11,9 +11,10 @@
   "scripts": {
     "comply": "standard --fix",
     "test": "jest",
-    "build": "npm run comply && npm test && webpack",
+    "build": "npm run comply && npm test && npm run fix-libresprite-json && webpack",
     "serve": "http-server ./dist",
-    "itchio-push": "npm run build && zip bundle dist/* && butler push bundle.zip $npm_package_config_itchiotarget:html"
+    "itchio-push": "npm run build && zip bundle dist/* && butler push bundle.zip $npm_package_config_itchiotarget:html",
+    "fix-libresprite-json": "node scripts/fix-libresprite-json.js"
   },
   "author": "",
   "license": "MIT",
