@@ -3,14 +3,15 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   entry: './src/entry_point.js',
-  mode: 'production',
+  mode: 'development',
   cache: {
     type: 'filesystem'
   },
   plugins: [
     new HtmlWebpackPlugin(
       {
-        title: 'Caching'
+        title: 'set-phaser-to-stun',
+        template: 'template-index.html'
       }
     )
   ],
