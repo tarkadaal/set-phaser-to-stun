@@ -4,6 +4,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
   entry: './src/entry_point.js',
   mode: 'production',
+  cache: {
+    type: 'filesystem'
+  },
   plugins: [
     new HtmlWebpackPlugin(
       {
@@ -16,10 +19,31 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     clean: true
   },
+  optimization: {
+    runtimeChunk: 'single',
+
+    splitChunks: {
+
+      cacheGroups: {
+
+        vendor: {
+
+          test: /[\\/]node_modules[\\/]/,
+
+          name: 'vendors',
+
+          chunks: 'all'
+
+        }
+
+      }
+
+    }
+  },
   module: {
     rules: [
       {
-        test: /\.(png|svg|jpg|jpeg|gif|wav|mp3|ogg)$/i,
+        test: /\.(png|svg|jpg|jpeg|gif|wav|mp3|ogg|xml)$/i,
         type: 'asset/resource'
       }
     ]
