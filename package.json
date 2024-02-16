@@ -5,16 +5,22 @@
   "config": {
     "itchiotarget": "tarkadaal/set-phaser-to-stun"
   },
-"standard": {
-  "env": [ "jest" ]
-},
+  "standard": {
+    "env": [
+      "jest"
+    ]
+  },
+  "watch": {
+    "build": "src/*.js"
+  },
   "scripts": {
     "comply": "standard --fix",
     "test": "jest",
     "build": "npm run comply && npm test && npm run fix-libresprite-json && webpack",
     "serve": "http-server ./dist",
-    "itchio-push": "npm run build && zip bundle dist/* && butler push bundle.zip $npm_package_config_itchiotarget:html",
-    "fix-libresprite-json": "node scripts/fix-libresprite-json.js"
+    "itchio-push": "npm run comply && npm test && npm run fix-libresprite-json && webpack --mode=production && zip bundle dist/* && butler push bundle.zip $npm_package_config_itchiotarget:html",
+    "fix-libresprite-json": "node scripts/fix-libresprite-json.js",
+    "watch": "npm-watch"
   },
   "author": "",
   "license": "MIT",
@@ -25,6 +31,7 @@
     "html-webpack-plugin": "5.6.0",
     "http-server": "14.1.1",
     "jest": "29.7.0",
+    "npm-watch": "0.11.0",
     "standard": "17.1.0",
     "webpack": "5.90.1",
     "webpack-cli": "5.1.4"
