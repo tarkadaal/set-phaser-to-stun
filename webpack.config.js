@@ -11,7 +11,8 @@ module.exports = {
     new HtmlWebpackPlugin(
       {
         title: 'set-phaser-to-stun',
-        template: 'template-index.html'
+        template: 'template-index.html',
+        inject: false
       }
     )
   ],

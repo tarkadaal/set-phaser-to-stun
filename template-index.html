@@ -33,6 +33,11 @@
 </div>
 <% } %>
 
+<div id="game_drop">
+  <%= htmlWebpackPlugin.tags.headTags %>
+  <%= htmlWebpackPlugin.tags.bodyTags %>
+</div>
+
 <% if (htmlWebpackPlugin.options.appMountId) { %>
 <div id="<%= htmlWebpackPlugin.options.appMountId%>"></div>
 <% } %>
