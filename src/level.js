@@ -9,6 +9,10 @@ const DEFAULT_TILE = 'dev-tile'
 const PLAYER_TEXTURE = 'player-texture'
 
 export default class Level extends Phaser.Scene {
+  constructor () {
+    super({ key: 'level' })
+  }
+
   preload () {
     this.load.image(DEFAULT_TILE, DevTile)
     this.load.image(PLAYER_TEXTURE, PlayerImage)
@@ -44,6 +48,9 @@ export default class Level extends Phaser.Scene {
         this.player.setX(this.player.x + 24)
       }
       this.lastMoveTime = time
+    }
+    if (this.player.y < 0) {
+      this.scene.start('game_over')
     }
   }
 }
