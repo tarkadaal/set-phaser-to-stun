@@ -1,27 +1,34 @@
 const Controls = require('./controls')
+function _testInputs (u, d, l, r) {
+  return {
+    W: { isDown: u },
+    S: { isDown: d },
+    A: { isDown: l },
+    D: { isDown: r }
+  }
+}
+
 test('creation', () => {
   const c = new Controls()
   expect(c).toBeTruthy()
 })
 
-test('Mapping W to UP', () => {
-  const c = new Controls({ W: { isDown: true } })
-  expect(c.isUpPressed()).toEqual(true)
+test('areAnyPressed, all false', () => {
+  const c = new Controls(_testInputs(false, false, false, false))
+  const [anyPressed, keys] = c.areAnyPressed()
+  expect(anyPressed).toBe(false)
+  expect(keys.up).toBe(false)
+  expect(keys.down).toBe(false)
+  expect(keys.left).toBe(false)
+  expect(keys.right).toBe(false)
 })
 
-test('Mapping W to UP, but checking it is not active', () => {
-  const c = new Controls({ W: { isDown: false } })
-  expect(c.isUpPressed()).toEqual(false)
-})
-test('Mapping S to DOWN', () => {
-  const c = new Controls({ W: { isDown: false }, S: { isDown: true } })
-  expect(c.isDownPressed()).toEqual(true)
-})
-test('Mapping A to LEFT', () => {
-  const c = new Controls({ A: { isDown: true } })
-  expect(c.isLeftPressed()).toEqual(true)
-})
-test('Mapping D to RIGHT', () => {
-  const c = new Controls({ D: { isDown: true } })
-  expect(c.isRightPressed()).toEqual(true)
+test('areAnyPressed, two true', () => {
+  const c = new Controls(_testInputs(true, false, false, true))
+  const [anyPressed, keys] = c.areAnyPressed()
+  expect(anyPressed).toBe(true)
+  expect(keys.up).toBe(true)
+  expect(keys.down).toBe(false)
+  expect(keys.left).toBe(false)
+  expect(keys.right).toBe(true)
 })

@@ -32,17 +32,17 @@ export default class Level extends Phaser.Scene {
   }
 
   update (time, delta) {
-    if (this.controls.isDownPressed() && time - this.lastMoveTime > 400) {
-      this.player.setY(this.player.y + 24)
-      this.lastMoveTime = time
-    } else if (this.controls.isUpPressed() && time - this.lastMoveTime > 400) {
-      this.player.setY(this.player.y - 24)
-      this.lastMoveTime = time
-    } else if (this.controls.isLeftPressed() && time - this.lastMoveTime > 400) {
-      this.player.setX(this.player.x - 24)
-      this.lastMoveTime = time
-    } else if (this.controls.isRightPressed() && time - this.lastMoveTime > 400) {
-      this.player.setX(this.player.x + 24)
+    const [anyPressed, presses] = this.controls.areAnyPressed()
+    if (anyPressed && time - this.lastMoveTime > 400) {
+      if (presses.down) {
+        this.player.setY(this.player.y + 24)
+      } else if (presses.up) {
+        this.player.setY(this.player.y - 24)
+      } else if (presses.left) {
+        this.player.setX(this.player.x - 24)
+      } else if (presses.right) {
+        this.player.setX(this.player.x + 24)
+      }
       this.lastMoveTime = time
     }
   }

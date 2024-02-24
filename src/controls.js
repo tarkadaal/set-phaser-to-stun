@@ -3,6 +3,9 @@ class Controls {
     this.keys = keys
   }
 
+  // These methods "consume" the keystroke from the underlying Phaser keys
+  // object. Calling areAnyPressed creates a snapshot, which you can then
+  // query non-destructively.
   isUpPressed () {
     return this.keys.W.isDown
   }
@@ -17,6 +20,16 @@ class Controls {
 
   isRightPressed () {
     return this.keys.D.isDown
+  }
+
+  areAnyPressed () {
+    const snapshot = {
+      up: this.isUpPressed(),
+      down: this.isDownPressed(),
+      left: this.isLeftPressed(),
+      right: this.isRightPressed()
+    }
+    return [snapshot.up || snapshot.down || snapshot.left || snapshot.right, snapshot]
   }
 }
 
