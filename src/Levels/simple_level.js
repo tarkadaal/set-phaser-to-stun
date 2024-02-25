@@ -90,6 +90,9 @@ export default class SimpleLevel extends Phaser.Scene {
     const [anyPressed, presses] = this.controls.areAnyPressed()
     const allowedToMove = time - this.lastMoveTime > PLAYER_TICK_SPEED
     const speed = PLAYER_SPEED
+    const toggleWalk = () => {
+      this.player.anims.play('walk')
+    }
     if (allowedToMove) {
       // this.player.anims.play('walk')
       // This if block makes the player "snap" to the nearest tile. Without this,
@@ -108,6 +111,9 @@ export default class SimpleLevel extends Phaser.Scene {
       }
 
       if (anyPressed) {
+        if (presses.down || presses.up || presses.left || presses.right) {
+          toggleWalk()
+        }
         if (presses.down) {
           this.player.body.setVelocityY(speed)
         } else if (presses.up) {
