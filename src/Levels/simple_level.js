@@ -7,14 +7,12 @@ import Map from 'Assets/textures/test.json'
 import PlayerImage from 'Assets/textures/flamey-fin.png'
 import PlayerJSON from 'Assets/textures/flamey-fin.json'
 
-// const PLAYER_TEXTURE = 'player-texture'
- 
-//import PlayerImage from 'Assets/textures/player.png'
 import EnemyImage from 'Assets/textures/enemy.png'
 
-//const PLAYER_TEXTURE = 'player-texture'
+const PLAYER_TEXTURE = 'player-texture'
 const ENEMY_TEXTURE = 'enemy-texture'
- 
+
+const PIPELINE = 'Light2D'
 const TILE_SIZE = 32
 
 export default class SimpleLevel extends Phaser.Scene {
@@ -25,20 +23,17 @@ export default class SimpleLevel extends Phaser.Scene {
   preload () {
     this.load.tilemapTiledJSON('map', Map)
     this.load.image('tiles', aTile)
-    this.load.aseprite('player', PlayerImage, PlayerJSON)
-
-    //this.load.image(PLAYER_TEXTURE, PlayerImage)
+    this.load.aseprite(PLAYER_TEXTURE, PlayerImage, PlayerJSON)
     this.load.image(ENEMY_TEXTURE, EnemyImage)
-
   }
 
   create () {
     const map = this.make.tilemap({ key: 'map', tileWidth: TILE_SIZE, tileHeight: TILE_SIZE })
     const tileset = map.addTilesetImage('floating-tileset', 'tiles')
-    this.layerGround = map.createLayer('ground', tileset, 0, 0).setPipeline('Light2D')
-    this.layerWater = map.createLayer('water', tileset, 0, 0).setPipeline('Light2D')
-    this.layerHill = map.createLayer('hill', tileset, 0, 0).setPipeline('Light2D')
-    this.layerBush = map.createLayer('bush', tileset, 0, 0).setPipeline('Light2D')
+    this.layerGround = map.createLayer('ground', tileset, 0, 0).setPipeline(PIPELINE)
+    this.layerWater = map.createLayer('water', tileset, 0, 0).setPipeline(PIPELINE)
+    this.layerHill = map.createLayer('hill', tileset, 0, 0).setPipeline(PIPELINE)
+    this.layerBush = map.createLayer('bush', tileset, 0, 0).setPipeline(PIPELINE)
 
     for (const layer of [this.layerHill, this.layerBush, this.layerWater, this.layerGround]) {
       layer.setScale(2)
@@ -47,13 +42,12 @@ export default class SimpleLevel extends Phaser.Scene {
     this.layerWater.setCollisionByExclusion([-1])
     this.layerBush.setCollisionByExclusion([-1])
 
+    this.anims.createFromAseprite(PLAYER_TEXTURE)
 
-    this.anims.createFromAseprite('player')
-
-    this.player = this.physics.add.sprite(TILE_SIZE, TILE_SIZE, 'player').setPipeline('Light2D')
+    this.player = this.physics.add.sprite(TILE_SIZE, TILE_SIZE, PLAYER_TEXTURE).setPipeline(PIPELINE)
     this.player.play({ key: 'idle', repeat: -1 })
 
-    //this.player = this.physics.add.image(TILE_SIZE, TILE_SIZE, PLAYER_TEXTURE).setPipeline('Light2D')
+    // this.player = this.physics.add.image(TILE_SIZE, TILE_SIZE, PLAYER_TEXTURE).setPipeline(PIPELINE)
 
     this.player.setOrigin(0, 0)
     this.physics.add.collider(this.player, this.layerWater)
@@ -114,7 +108,7 @@ export default class SimpleLevel extends Phaser.Scene {
   }
 
   _createEnemy (x, y, direction) {
-    const enemy = this.physics.add.image(TILE_SIZE * x, TILE_SIZE * y, ENEMY_TEXTURE).setPipeline('Light2D')
+    const enemy = this.physics.add.image(TILE_SIZE * x, TILE_SIZE * y, ENEMY_TEXTURE).setPipeline(PIPELINE)
     enemy.setOrigin(0, 0)
     enemy.direction = direction
     this.physics.add.collider(enemy, this.layerWater)
