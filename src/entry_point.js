@@ -1,5 +1,6 @@
 import Phaser from 'phaser/dist/phaser.min.js'
-import Level from './level.js'
+import SimpleLevel from './Levels/simple_level.js'
+
 const config = {
   type: Phaser.AUTO,
   scale: {
@@ -9,7 +10,7 @@ const config = {
     width: 800,
     height: 600
   },
-  scene: Level
+  scene: SimpleLevel
 }
 
 const game = new Phaser.Game(config) // eslint-disable-line no-unused-vars
