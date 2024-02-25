@@ -12,7 +12,7 @@ import PlayerJSON from 'Assets/textures/flamey-fin.json'
 // import PlayerImage from 'Assets/textures/player.png'
 import EnemyImage from 'Assets/textures/enemy.png'
 
- const PLAYER_TEXTURE = 'player-texture'
+const PLAYER_TEXTURE = 'player-texture'
 const ENEMY_TEXTURE = 'enemy-texture'
 
 const PIPELINE = 'Light2D'
