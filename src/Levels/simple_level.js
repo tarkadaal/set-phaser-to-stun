@@ -7,14 +7,16 @@ import Map from 'Assets/textures/test.json'
 import PlayerImage from 'Assets/textures/flamey-fin.png'
 import PlayerJSON from 'Assets/textures/flamey-fin.json'
 
+import GoalImage from 'Assets/textures/goal.png'
 // const PLAYER_TEXTURE = 'player-texture'
- 
-//import PlayerImage from 'Assets/textures/player.png'
+
+// import PlayerImage from 'Assets/textures/player.png'
 import EnemyImage from 'Assets/textures/enemy.png'
 
-//const PLAYER_TEXTURE = 'player-texture'
+// const PLAYER_TEXTURE = 'player-texture'
 const ENEMY_TEXTURE = 'enemy-texture'
- 
+const GOAL_TEXTURE = 'goal-texture'
+
 const TILE_SIZE = 32
 
 export default class SimpleLevel extends Phaser.Scene {
@@ -27,9 +29,9 @@ export default class SimpleLevel extends Phaser.Scene {
     this.load.image('tiles', aTile)
     this.load.aseprite('player', PlayerImage, PlayerJSON)
 
-    //this.load.image(PLAYER_TEXTURE, PlayerImage)
+    // this.load.image(PLAYER_TEXTURE, PlayerImage)
     this.load.image(ENEMY_TEXTURE, EnemyImage)
-
+    this.load.image(GOAL_TEXTURE, GoalImage)
   }
 
   create () {
@@ -47,13 +49,12 @@ export default class SimpleLevel extends Phaser.Scene {
     this.layerWater.setCollisionByExclusion([-1])
     this.layerBush.setCollisionByExclusion([-1])
 
-
     this.anims.createFromAseprite('player')
 
     this.player = this.physics.add.sprite(TILE_SIZE, TILE_SIZE, 'player').setPipeline('Light2D')
     this.player.play({ key: 'idle', repeat: -1 })
 
-    //this.player = this.physics.add.image(TILE_SIZE, TILE_SIZE, PLAYER_TEXTURE).setPipeline('Light2D')
+    // this.player = this.physics.add.image(TILE_SIZE, TILE_SIZE, PLAYER_TEXTURE).setPipeline('Light2D')
 
     this.player.setOrigin(0, 0)
     this.physics.add.collider(this.player, this.layerWater)
@@ -65,6 +66,10 @@ export default class SimpleLevel extends Phaser.Scene {
     this.enemies.push(this._createEnemy(10, 1, 'left'))
     this.enemies.push(this._createEnemy(6, 10, 'down'))
     this.enemies.push(this._createEnemy(5, 14, 'down'))
+
+    this.goal = this.physics.add.image(TILE_SIZE * 17, TILE_SIZE * 7, GOAL_TEXTURE).setPipeline('Light2D')
+    this.goal.setOrigin(0, 0)
+    this.physics.add.overlap(this.player, this.goal, this._goalOverlap, null, this)
 
     const keys = this.input.keyboard.addKeys('W,A,S,D')
     this.controls = new Controls(keys)
@@ -130,8 +135,8 @@ export default class SimpleLevel extends Phaser.Scene {
 
   _updateEnemy (enemy, time) {
     const moving = (enemy.body.velocity.x || enemy.body.velocity.y)
-    const allowedToMove = time - enemy.lastMoveTime > 250
-    const speed = 128
+    const allowedToMove = time - enemy.lastMoveTime > 500
+    const speed = 64
     if (allowedToMove) {
       // This if block makes the player "snap" to the nearest tile. Without this,
       // there's no way of guaranteeing that the player won't overshoot by a
@@ -168,5 +173,9 @@ export default class SimpleLevel extends Phaser.Scene {
           break
       }
     }
+  }
+
+  _goalOverlap (player, goal) {
+    this.scene.start('win_screen')
   }
 }
