@@ -42,7 +42,7 @@ export default class SimpleLevel extends Phaser.Scene {
     this.player.setOrigin(0, 0)
     this.physics.add.collider(this.player, this.layerWater)
     this.physics.add.collider(this.player, this.layerBush)
-    this.player.light = this.lights.addLight(TILE_SIZE + (TILE_SIZE / 2), TILE_SIZE + (TILE_SIZE + 2), 96).setColor(0xfb5236).setIntensity(2.0)
+    this.player.light = this.lights.addLight(TILE_SIZE + (TILE_SIZE / 2), TILE_SIZE + (TILE_SIZE + 2), 128).setColor(0xfb5236).setIntensity(2.0)
     this.lights.enable().setAmbientColor(0x000000)
 
     this.enemies = []
@@ -89,7 +89,7 @@ export default class SimpleLevel extends Phaser.Scene {
     }
     this.player.light.x = this.player.body.x + (TILE_SIZE / 2)
     this.player.light.y = this.player.body.y + (TILE_SIZE / 2)
-    this.player.light.diameter = 90 + Math.floor(Math.random() * 10)
+    this.player.light.diameter = 160 + Math.floor(Math.random() * 40)
     for (const enemy of this.enemies) {
       this._updateEnemy(enemy, time)
     }
