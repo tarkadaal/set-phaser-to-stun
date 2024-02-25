@@ -49,6 +49,7 @@ export default class SimpleLevel extends Phaser.Scene {
   create () {
     const map = this.make.tilemap({ key: 'map', tileWidth: TILE_SIZE, tileHeight: TILE_SIZE })
     const tileset = map.addTilesetImage('floating-tileset', 'tiles')
+    this.isPlayerDying = false
     this.layerGround = map.createLayer('ground', tileset, 0, 0).setPipeline(PIPELINE)
     this.layerWater = map.createLayer('water', tileset, 0, 0).setPipeline(PIPELINE)
     this.layerHill = map.createLayer('hill', tileset, 0, 0).setPipeline(PIPELINE)
@@ -111,6 +112,9 @@ export default class SimpleLevel extends Phaser.Scene {
       }
 
       if (anyPressed) {
+        if (this.isPlayerDying) {
+          return
+        }
         if (presses.down || presses.up || presses.left || presses.right) {
           toggleWalk()
         }
@@ -147,6 +151,7 @@ export default class SimpleLevel extends Phaser.Scene {
 
   _enemyOverlap (enemy, player) {
     console.log('overlap!')
+    this.isPlayerDying = true
     player.body.setVelocity(0, 0)
     player.body.stop()
     player.body.enable = false
