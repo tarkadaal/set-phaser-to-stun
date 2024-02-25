@@ -47,21 +47,36 @@ export default class SimpleLevel extends Phaser.Scene {
 
   update (time, delta) {
     const [anyPressed, presses] = this.controls.areAnyPressed()
-    if (anyPressed) { // && time - this.lastMoveTime > 400) {
-      if (presses.down) {
-        this.player.body.setVelocityY(100)
-      } else if (presses.up) {
-        this.player.body.setVelocityY(-100)
-      } else if (presses.left) {
-        this.player.body.setVelocityX(-100)
-      } else if (presses.right) {
-        this.player.body.setVelocityX(100)
+    const allowedToMove = time - this.lastMoveTime > 500
+    const speed = 66
+    if (allowedToMove) {
+      // This if block makes the player "snap" to the nearest tile. Without this,
+      // there's no way of guaranteeing that the player won't overshoot by a
+      // fraction of a pixel, which *looks* fine, but *technically* makes you
+      // clash with a different tile.
+      // Why yes, this bit was a complete arse, why do you ask?
+      if (this.player.body.velocity.x || this.player.body.velocity.y) {
+        const numX = this.player.body.x + TILE_SIZE / 2
+        const nearestX = numX - (numX % TILE_SIZE)
+        const numY = this.player.body.y + TILE_SIZE / 2
+        const nearestY = numY - (numY % TILE_SIZE)
+        this.player.body.setVelocity(0)
+        this.player.body.reset(nearestX, nearestY)
       }
-      this.lastMoveTime = time
-    } else {
-      this.player.body.setVelocity(0)
-    }
 
+      if (anyPressed) {
+        if (presses.down) {
+          this.player.body.setVelocityY(speed)
+        } else if (presses.up) {
+          this.player.body.setVelocityY(-speed)
+        } else if (presses.left) {
+          this.player.body.setVelocityX(-speed)
+        } else if (presses.right) {
+          this.player.body.setVelocityX(speed)
+        }
+        this.lastMoveTime = time
+      }
+    }
     if (this.player.y < 0) {
       this.scene.start('game_over')
     }
