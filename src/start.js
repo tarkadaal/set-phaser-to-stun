@@ -19,7 +19,7 @@ export default class Start extends Phaser.Scene {
   update (time, delta) {
     const anyPressed = this.controls.areAnyPressed()[0]
     if (anyPressed) {
-      this.scene.start('level')
+      this.scene.start('simple_level')
     }
   }
 }
