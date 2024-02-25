@@ -26,10 +26,10 @@ export default class SimpleLevel extends Phaser.Scene {
   create () {
     const map = this.make.tilemap({ key: 'map', tileWidth: TILE_SIZE, tileHeight: TILE_SIZE })
     const tileset = map.addTilesetImage('floating-tileset', 'tiles')
-    this.layerGround = map.createLayer('ground', tileset, 0, 0)
-    this.layerWater = map.createLayer('water', tileset, 0, 0)
-    this.layerHill = map.createLayer('hill', tileset, 0, 0)
-    this.layerBush = map.createLayer('bush', tileset, 0, 0)
+    this.layerGround = map.createLayer('ground', tileset, 0, 0).setPipeline('Light2D')
+    this.layerWater = map.createLayer('water', tileset, 0, 0).setPipeline('Light2D')
+    this.layerHill = map.createLayer('hill', tileset, 0, 0).setPipeline('Light2D')
+    this.layerBush = map.createLayer('bush', tileset, 0, 0).setPipeline('Light2D')
 
     for (const layer of [this.layerHill, this.layerBush, this.layerWater, this.layerGround]) {
       layer.setScale(2)
@@ -38,10 +38,12 @@ export default class SimpleLevel extends Phaser.Scene {
     this.layerWater.setCollisionByExclusion([-1])
     this.layerBush.setCollisionByExclusion([-1])
 
-    this.player = this.physics.add.image(TILE_SIZE, TILE_SIZE, PLAYER_TEXTURE)
+    this.player = this.physics.add.image(TILE_SIZE, TILE_SIZE, PLAYER_TEXTURE).setPipeline('Light2D')
     this.player.setOrigin(0, 0)
     this.physics.add.collider(this.player, this.layerWater)
     this.physics.add.collider(this.player, this.layerBush)
+    this.player.light = this.lights.addLight(TILE_SIZE + (TILE_SIZE / 2), TILE_SIZE + (TILE_SIZE + 2), 128).setColor(0xfb5236).setIntensity(2.0)
+    this.lights.enable().setAmbientColor(0x000000)
 
     this.enemies = []
     this.enemies.push(this._createEnemy(10, 1, 'left'))
@@ -85,13 +87,16 @@ export default class SimpleLevel extends Phaser.Scene {
         this.lastMoveTime = time
       }
     }
+    this.player.light.x = this.player.body.x + (TILE_SIZE / 2)
+    this.player.light.y = this.player.body.y + (TILE_SIZE / 2)
+    this.player.light.diameter = 160 + Math.floor(Math.random() * 40)
     for (const enemy of this.enemies) {
       this._updateEnemy(enemy, time)
     }
   }
 
   _createEnemy (x, y, direction) {
-    const enemy = this.physics.add.image(TILE_SIZE * x, TILE_SIZE * y, ENEMY_TEXTURE)
+    const enemy = this.physics.add.image(TILE_SIZE * x, TILE_SIZE * y, ENEMY_TEXTURE).setPipeline('Light2D')
     enemy.setOrigin(0, 0)
     enemy.direction = direction
     this.physics.add.collider(enemy, this.layerWater)
