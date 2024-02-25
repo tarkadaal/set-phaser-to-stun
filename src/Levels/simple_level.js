@@ -7,9 +7,6 @@ import Map from 'Assets/textures/test.json'
 import PlayerImage from 'Assets/textures/flamey-fin.png'
 import PlayerJSON from 'Assets/textures/flamey-fin.json'
 
-// const PLAYER_TEXTURE = 'player-texture'
-
-// import PlayerImage from 'Assets/textures/player.png'
 import EnemyImage from 'Assets/textures/enemy.png'
 
 const PLAYER_TEXTURE = 'player-texture'
@@ -40,7 +37,9 @@ export default class SimpleLevel extends Phaser.Scene {
   preload () {
     this.load.tilemapTiledJSON('map', Map)
     this.load.image('tiles', aTile)
+
     this.load.aseprite(PLAYER_TEXTURE, PlayerImage, PlayerJSON)
+
     this.load.image(ENEMY_TEXTURE, EnemyImage)
   }
 
@@ -59,12 +58,13 @@ export default class SimpleLevel extends Phaser.Scene {
     this.layerWater.setCollisionByExclusion([-1])
     this.layerBush.setCollisionByExclusion([-1])
 
+
     this.anims.createFromAseprite(PLAYER_TEXTURE)
 
     this.player = this.physics.add.sprite(TILE_SIZE, TILE_SIZE, PLAYER_TEXTURE).setPipeline(PIPELINE)
     this.player.play({ key: 'idle', repeat: -1 })
 
-    // this.player = this.physics.add.image(TILE_SIZE, TILE_SIZE, PLAYER_TEXTURE).setPipeline(PIPELINE)
+
 
     this.player.setOrigin(0, 0)
     this.physics.add.collider(this.player, this.layerWater)
