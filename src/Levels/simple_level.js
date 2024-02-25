@@ -70,9 +70,9 @@ export default class SimpleLevel extends Phaser.Scene {
     this.lights.enable().setAmbientColor(0x000000)
 
     this.enemies = []
-    this.enemies.push(this._createEnemy(10, 1, directions.LEFT))
-    this.enemies.push(this._createEnemy(6, 10, directions.DOWN))
-    this.enemies.push(this._createEnemy(5, 14, directions.DOWN))
+    this.enemies.push(this._createEnemy(10, 1, directions.LEFT, this))
+    this.enemies.push(this._createEnemy(6, 10, directions.DOWN, this))
+    this.enemies.push(this._createEnemy(5, 14, directions.DOWN, this))
 
     const keys = this.input.keyboard.addKeys('W,A,S,D')
     this.controls = new Controls(keys)
@@ -121,13 +121,13 @@ export default class SimpleLevel extends Phaser.Scene {
     }
   }
 
-  _createEnemy (x, y, direction) {
-    const enemy = this.physics.add.image(TILE_SIZE * x, TILE_SIZE * y, ENEMY_TEXTURE).setPipeline(PIPELINE)
+  _createEnemy (x, y, direction, scene) {
+    const enemy = scene.physics.add.image(TILE_SIZE * x, TILE_SIZE * y, ENEMY_TEXTURE).setPipeline(PIPELINE)
     enemy.setOrigin(0, 0)
     enemy.direction = direction
-    this.physics.add.collider(enemy, this.layerWater)
-    this.physics.add.collider(enemy, this.layerBush)
-    this.physics.add.overlap(enemy, this.player, this._enemyOverlap, null, this)
+    scene.physics.add.collider(enemy, scene.layerWater)
+    scene.physics.add.collider(enemy, scene.layerBush)
+    scene.physics.add.overlap(enemy, scene.player, scene._enemyOverlap, null, scene)
     enemy.lastMoveTime = 0
     return enemy
   }
