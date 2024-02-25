@@ -11,7 +11,7 @@
     ]
   },
   "watch": {
-    "build": "src/*.js"
+    "build": "src/**/*.js"
   },
   "scripts": {
     "comply": "standard --fix",
