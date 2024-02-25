@@ -21,6 +21,14 @@ const PLAYER_SPEED = 128
 const PLAYER_TICK_SPEED = 250 // milliseconds
 const ENEMY_SPEED = 128
 const ENEMY_TICK_SPEED = 250 // milliseconds
+
+const directions = {
+  LEFT: 'left',
+  RIGHT: 'right',
+  UP: 'up',
+  DOWN: 'down'
+}
+
 export default class SimpleLevel extends Phaser.Scene {
   constructor () {
     super({ key: 'simple_level' })
@@ -62,9 +70,9 @@ export default class SimpleLevel extends Phaser.Scene {
     this.lights.enable().setAmbientColor(0x000000)
 
     this.enemies = []
-    this.enemies.push(this._createEnemy(10, 1, 'left'))
-    this.enemies.push(this._createEnemy(6, 10, 'down'))
-    this.enemies.push(this._createEnemy(5, 14, 'down'))
+    this.enemies.push(this._createEnemy(10, 1, directions.LEFT))
+    this.enemies.push(this._createEnemy(6, 10, directions.DOWN))
+    this.enemies.push(this._createEnemy(5, 14, directions.DOWN))
 
     const keys = this.input.keyboard.addKeys('W,A,S,D')
     this.controls = new Controls(keys)
@@ -150,20 +158,20 @@ export default class SimpleLevel extends Phaser.Scene {
     }
     if (!moving) {
       switch (enemy.direction) {
-        case 'left':
-          enemy.direction = 'right'
+        case directions.LEFT:
+          enemy.direction = directions.RIGHT
           enemy.body.setVelocityX(speed)
           break
-        case 'right':
-          enemy.direction = 'left'
+        case directions.RIGHT:
+          enemy.direction = directions.LEFT
           enemy.body.setVelocityX(-speed)
           break
-        case 'up':
-          enemy.direction = 'down'
+        case directions.UP:
+          enemy.direction = directions.DOWN
           enemy.body.setVelocityY(speed)
           break
-        case 'down':
-          enemy.direction = 'up'
+        case directions.DOWN:
+          enemy.direction = directions.UP
           enemy.body.setVelocityY(-speed)
           break
       }
