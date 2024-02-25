@@ -95,7 +95,12 @@ export default class SimpleLevel extends Phaser.Scene {
     enemy.direction = direction
     this.physics.add.collider(enemy, this.layerWater)
     this.physics.add.collider(enemy, this.layerBush)
-    this.physics.add.collider(enemy, this.player)
+    this.physics.add.overlap(enemy, this.player, this._enemyOverlap, null, this)
+
     return enemy
+  }
+
+  _enemyOverlap (enemy, player) {
+    this.scene.start('game_over')
   }
 }
