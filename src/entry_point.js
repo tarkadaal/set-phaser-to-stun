@@ -13,7 +13,13 @@ const config = {
     width: 800,
     height: 600
   },
-  scene: [Start, Level, SimpleLevel, GameOver]
+  scene: [Start, Level, SimpleLevel, GameOver],
+  physics: {
+    default: 'arcade',
+    arcade: {
+      gravity: { y: 0 }
+    }
+  }
 }
 
 const game = new Phaser.Game(config) // eslint-disable-line no-unused-vars

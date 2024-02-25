@@ -7,6 +7,7 @@ import Map from 'Assets/textures/test.json'
 import PlayerImage from 'Assets/textures/player.png'
 
 const PLAYER_TEXTURE = 'player-texture'
+const TILE_SIZE = 32
 
 export default class SimpleLevel extends Phaser.Scene {
   constructor () {
@@ -20,7 +21,7 @@ export default class SimpleLevel extends Phaser.Scene {
   }
 
   create () {
-    const map = this.make.tilemap({ key: 'map', tileWidth: 32, tileHeight: 32 })
+    const map = this.make.tilemap({ key: 'map', tileWidth: TILE_SIZE, tileHeight: TILE_SIZE })
     const tileset = map.addTilesetImage('floating-tileset', 'tiles')
     const layerGround = map.createLayer('ground', tileset, 0, 0)
     const layerWater = map.createLayer('water', tileset, 0, 0)
@@ -34,8 +35,10 @@ export default class SimpleLevel extends Phaser.Scene {
     layerWater.setCollisionByExclusion([-1])
     layerBush.setCollisionByExclusion([-1])
 
-    this.player = this.add.image(32, 32, PLAYER_TEXTURE)
+    this.player = this.physics.add.image(TILE_SIZE, TILE_SIZE, PLAYER_TEXTURE)
     this.player.setOrigin(0, 0)
+    this.physics.add.collider(this.player, layerWater)
+    this.physics.add.collider(this.player, layerBush)
 
     const keys = this.input.keyboard.addKeys('W,A,S,D')
     this.controls = new Controls(keys)
@@ -44,17 +47,19 @@ export default class SimpleLevel extends Phaser.Scene {
 
   update (time, delta) {
     const [anyPressed, presses] = this.controls.areAnyPressed()
-    if (anyPressed && time - this.lastMoveTime > 400) {
+    if (anyPressed) { // && time - this.lastMoveTime > 400) {
       if (presses.down) {
-        this.player.setY(this.player.y + 32)
+        this.player.body.setVelocityY(100)
       } else if (presses.up) {
-        this.player.setY(this.player.y - 32)
+        this.player.body.setVelocityY(-100)
       } else if (presses.left) {
-        this.player.setX(this.player.x - 32)
+        this.player.body.setVelocityX(-100)
       } else if (presses.right) {
-        this.player.setX(this.player.x + 32)
+        this.player.body.setVelocityX(100)
       }
       this.lastMoveTime = time
+    } else {
+      this.player.body.setVelocity(0)
     }
 
     if (this.player.y < 0) {
