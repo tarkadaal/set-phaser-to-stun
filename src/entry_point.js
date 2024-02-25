@@ -3,6 +3,7 @@ import SimpleLevel from './Levels/simple_level.js'
 import Start from './start.js'
 import Level from './level.js'
 import GameOver from './game_over.js'
+import WinScreen from './win_screen.js'
 
 const config = {
   type: Phaser.AUTO,
@@ -13,7 +14,7 @@ const config = {
     width: 800,
     height: 600
   },
-  scene: [Start, Level, SimpleLevel, GameOver],
+  scene: [Start, Level, SimpleLevel, GameOver, WinScreen],
   physics: {
     default: 'arcade',
     arcade: {
