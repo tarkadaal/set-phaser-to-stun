@@ -106,7 +106,7 @@ export default class SimpleLevel extends Phaser.Scene {
         const numY = this.player.body.y + TILE_SIZE_HALF
         const nearestY = numY - (numY % TILE_SIZE)
         this.player.body.setVelocity(0)
-        // this.player.anims.play('walk', false)
+        this.player.play({ key: 'idle', repeat: -1 })
         this.player.body.reset(nearestX, nearestY)
       }
 
