@@ -4,11 +4,17 @@ import Controls from '../controls.js'
 
 import aTile from 'Assets/textures/tiles.png'
 import Map from 'Assets/textures/test.json'
-import PlayerImage from 'Assets/textures/player.png'
+import PlayerImage from 'Assets/textures/flamey-fin.png'
+import PlayerJSON from 'Assets/textures/flamey-fin.json'
+
+// const PLAYER_TEXTURE = 'player-texture'
+ 
+//import PlayerImage from 'Assets/textures/player.png'
 import EnemyImage from 'Assets/textures/enemy.png'
 
-const PLAYER_TEXTURE = 'player-texture'
+//const PLAYER_TEXTURE = 'player-texture'
 const ENEMY_TEXTURE = 'enemy-texture'
+ 
 const TILE_SIZE = 32
 
 export default class SimpleLevel extends Phaser.Scene {
@@ -19,8 +25,11 @@ export default class SimpleLevel extends Phaser.Scene {
   preload () {
     this.load.tilemapTiledJSON('map', Map)
     this.load.image('tiles', aTile)
-    this.load.image(PLAYER_TEXTURE, PlayerImage)
+    this.load.aseprite('player', PlayerImage, PlayerJSON)
+
+    //this.load.image(PLAYER_TEXTURE, PlayerImage)
     this.load.image(ENEMY_TEXTURE, EnemyImage)
+
   }
 
   create () {
@@ -38,7 +47,14 @@ export default class SimpleLevel extends Phaser.Scene {
     this.layerWater.setCollisionByExclusion([-1])
     this.layerBush.setCollisionByExclusion([-1])
 
-    this.player = this.physics.add.image(TILE_SIZE, TILE_SIZE, PLAYER_TEXTURE).setPipeline('Light2D')
+
+    this.anims.createFromAseprite('player')
+
+    this.player = this.physics.add.sprite(TILE_SIZE, TILE_SIZE, 'player').setPipeline('Light2D')
+    this.player.play({ key: 'idle', repeat: -1 })
+
+    //this.player = this.physics.add.image(TILE_SIZE, TILE_SIZE, PLAYER_TEXTURE).setPipeline('Light2D')
+
     this.player.setOrigin(0, 0)
     this.physics.add.collider(this.player, this.layerWater)
     this.physics.add.collider(this.player, this.layerBush)
@@ -60,6 +76,7 @@ export default class SimpleLevel extends Phaser.Scene {
     const allowedToMove = time - this.lastMoveTime > 250
     const speed = 128
     if (allowedToMove) {
+      // this.player.anims.play('walk')
       // This if block makes the player "snap" to the nearest tile. Without this,
       // there's no way of guaranteeing that the player won't overshoot by a
       // fraction of a pixel, which *looks* fine, but *technically* makes you
@@ -71,6 +88,7 @@ export default class SimpleLevel extends Phaser.Scene {
         const numY = this.player.body.y + TILE_SIZE / 2
         const nearestY = numY - (numY % TILE_SIZE)
         this.player.body.setVelocity(0)
+        // this.player.anims.play('walk', false)
         this.player.body.reset(nearestX, nearestY)
       }
 
