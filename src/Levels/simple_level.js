@@ -7,7 +7,6 @@ import Map from 'Assets/textures/test.json'
 import PlayerImage from 'Assets/textures/flamey-fin.png'
 import PlayerJSON from 'Assets/textures/flamey-fin.json'
 
-
 import EnemyImage from 'Assets/textures/enemy.png'
 import GoalImage from 'Assets/textures/goal.png'
 
@@ -40,12 +39,11 @@ export default class SimpleLevel extends Phaser.Scene {
   preload () {
     this.load.tilemapTiledJSON('map', Map)
     this.load.image('tiles', aTile)
- 
+
     this.load.aseprite(PLAYER_TEXTURE, PlayerImage, PlayerJSON)
 
     this.load.image(ENEMY_TEXTURE, EnemyImage)
     this.load.image(GOAL_TEXTURE, GoalImage)
-
   }
 
   create () {
@@ -63,9 +61,8 @@ export default class SimpleLevel extends Phaser.Scene {
     this.layerWater.setCollisionByExclusion([-1])
     this.layerBush.setCollisionByExclusion([-1])
 
-
     this.anims.createFromAseprite(PLAYER_TEXTURE)
- 
+
     this.player = this.physics.add.sprite(TILE_SIZE, TILE_SIZE, PLAYER_TEXTURE).setPipeline(PIPELINE)
     this.player.play({ key: 'idle', repeat: -1 })
 
@@ -148,10 +145,10 @@ export default class SimpleLevel extends Phaser.Scene {
 
   _updateEnemy (enemy, time) {
     const moving = (enemy.body.velocity.x || enemy.body.velocity.y)
-  
+
     const allowedToMove = time - enemy.lastMoveTime > ENEMY_TICK_SPEED
     const speed = ENEMY_SPEED
- 
+
     if (allowedToMove) {
       // This if block makes the player "snap" to the nearest tile. Without this,
       // there's no way of guaranteeing that the player won't overshoot by a
