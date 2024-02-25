@@ -14,10 +14,10 @@ function fixAnimationObject (data) {
   const frames = data.frames ? data.frames : {}
 
   for (const k of Object.keys(frames)) {
-    const result = k.match(/\d\.ase/g)
+    const result = k.match(/\d+\.ase.*/g)
     const tag = tryGetFirstMatch(result)
     if (tag) {
-      const index = tag[0].match(/\d/g)[0]
+      const index = tag.match(/\d+/g)[0]
       data.frames[index] = data.frames[k]
       delete data.frames[k]
     }
