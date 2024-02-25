@@ -14,7 +14,13 @@ const ENEMY_TEXTURE = 'enemy-texture'
 
 const PIPELINE = 'Light2D'
 const TILE_SIZE = 32
-
+const TILE_SIZE_HALF = TILE_SIZE / 2
+const LIGHT_DIAMETER = 160
+const LIGHT_VARIATION_MAX_SIZE = 40
+const PLAYER_SPEED = 128
+const PLAYER_TICK_SPEED = 250 // milliseconds
+const ENEMY_SPEED = 128
+const ENEMY_TICK_SPEED = 250 // milliseconds
 export default class SimpleLevel extends Phaser.Scene {
   constructor () {
     super({ key: 'simple_level' })
@@ -52,7 +58,7 @@ export default class SimpleLevel extends Phaser.Scene {
     this.player.setOrigin(0, 0)
     this.physics.add.collider(this.player, this.layerWater)
     this.physics.add.collider(this.player, this.layerBush)
-    this.player.light = this.lights.addLight(TILE_SIZE + (TILE_SIZE / 2), TILE_SIZE + (TILE_SIZE + 2), 128).setColor(0xfb5236).setIntensity(2.0)
+    this.player.light = this.lights.addLight(TILE_SIZE + TILE_SIZE_HALF, TILE_SIZE + (TILE_SIZE + 2), LIGHT_DIAMETER).setColor(0xfb5236).setIntensity(2.0)
     this.lights.enable().setAmbientColor(0x000000)
 
     this.enemies = []
@@ -67,8 +73,8 @@ export default class SimpleLevel extends Phaser.Scene {
 
   update (time, delta) {
     const [anyPressed, presses] = this.controls.areAnyPressed()
-    const allowedToMove = time - this.lastMoveTime > 250
-    const speed = 128
+    const allowedToMove = time - this.lastMoveTime > PLAYER_TICK_SPEED
+    const speed = PLAYER_SPEED
     if (allowedToMove) {
       // this.player.anims.play('walk')
       // This if block makes the player "snap" to the nearest tile. Without this,
@@ -77,9 +83,9 @@ export default class SimpleLevel extends Phaser.Scene {
       // clash with a different tile.
       // Why yes, this bit was a complete arse, why do you ask?
       if (this.player.body.velocity.x || this.player.body.velocity.y) {
-        const numX = this.player.body.x + TILE_SIZE / 2
+        const numX = this.player.body.x + TILE_SIZE_HALF
         const nearestX = numX - (numX % TILE_SIZE)
-        const numY = this.player.body.y + TILE_SIZE / 2
+        const numY = this.player.body.y + TILE_SIZE_HALF
         const nearestY = numY - (numY % TILE_SIZE)
         this.player.body.setVelocity(0)
         // this.player.anims.play('walk', false)
@@ -99,9 +105,9 @@ export default class SimpleLevel extends Phaser.Scene {
         this.lastMoveTime = time
       }
     }
-    this.player.light.x = this.player.body.x + (TILE_SIZE / 2)
-    this.player.light.y = this.player.body.y + (TILE_SIZE / 2)
-    this.player.light.diameter = 160 + Math.floor(Math.random() * 40)
+    this.player.light.x = this.player.body.x + TILE_SIZE_HALF
+    this.player.light.y = this.player.body.y + TILE_SIZE_HALF
+    this.player.light.diameter = LIGHT_DIAMETER + Math.floor(Math.random() * LIGHT_VARIATION_MAX_SIZE)
     for (const enemy of this.enemies) {
       this._updateEnemy(enemy, time)
     }
@@ -124,8 +130,8 @@ export default class SimpleLevel extends Phaser.Scene {
 
   _updateEnemy (enemy, time) {
     const moving = (enemy.body.velocity.x || enemy.body.velocity.y)
-    const allowedToMove = time - enemy.lastMoveTime > 250
-    const speed = 128
+    const allowedToMove = time - enemy.lastMoveTime > ENEMY_TICK_SPEED
+    const speed = ENEMY_SPEED
     if (allowedToMove) {
       // This if block makes the player "snap" to the nearest tile. Without this,
       // there's no way of guaranteeing that the player won't overshoot by a
@@ -133,9 +139,9 @@ export default class SimpleLevel extends Phaser.Scene {
       // clash with a different tile.
       // Why yes, this bit was a complete arse, why do you ask?
       if (moving) {
-        const numX = enemy.body.x + TILE_SIZE / 2
+        const numX = enemy.body.x + TILE_SIZE_HALF
         const nearestX = numX - (numX % TILE_SIZE)
-        const numY = enemy.body.y + TILE_SIZE / 2
+        const numY = enemy.body.y + TILE_SIZE_HALF
         const nearestY = numY - (numY % TILE_SIZE)
         enemy.body.x = nearestX
         enemy.body.y = nearestY
