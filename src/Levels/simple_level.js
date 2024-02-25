@@ -146,7 +146,18 @@ export default class SimpleLevel extends Phaser.Scene {
   }
 
   _enemyOverlap (enemy, player) {
-    this.scene.start('game_over')
+    console.log('overlap!')
+    player.body.setVelocity(0, 0)
+    player.body.stop()
+    player.body.enable = false
+    enemy.body.stop()
+    enemy.body.enable = false
+    const deathAnim = this.player.anims.play({ key: 'dead', repeat: 0 })
+    deathAnim.timeScale = 0.01
+    deathAnim.once('animationcomplete', () => {
+      console.log('end game!')
+      this.scene.start('game_over')
+    })
   }
 
   _updateEnemy (enemy, time) {
