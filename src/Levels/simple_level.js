@@ -58,13 +58,10 @@ export default class SimpleLevel extends Phaser.Scene {
     this.layerWater.setCollisionByExclusion([-1])
     this.layerBush.setCollisionByExclusion([-1])
 
-
     this.anims.createFromAseprite(PLAYER_TEXTURE)
 
     this.player = this.physics.add.sprite(TILE_SIZE, TILE_SIZE, PLAYER_TEXTURE).setPipeline(PIPELINE)
     this.player.play({ key: 'idle', repeat: -1 })
-
-
 
     this.player.setOrigin(0, 0)
     this.physics.add.collider(this.player, this.layerWater)
